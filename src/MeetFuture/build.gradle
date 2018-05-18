@@ -1,14 +1,71 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+/*ext {
+    //项目版本
+    configuration = [
+            package              : "com.eddc.mmxiang",
+            buildToolsVersion    : "25.0.1",
+            compileVersion       : 25,
+            minSdk               : 19,
+            targetSdk            : 23,
+            version_code         : 18,
+            version_name         : "1.1.7",
+            greendaoSchemaVersion: 1,
+            greendaoDaoPackage   : "com.eddc.mmxiang.data.db.user"
+    ]
+
+    //对一些库的版本进行统一管理
+    libraries = [
+            supportVersion: "25.0.1",
+            retrofit      : "2.1.0",
+            leakcanary    : "1.5",
+            blockcanary   : "1.4.0"
+    ]
+
+}*/
 buildscript {
-    ext.kotlin_version = '1.1.51'
+    ext{
+        kotlin_version = '1.1.51'
+        minSdk = 19
+        targetSdk = 25
+        compileVersion = 25
+        version_code = 1
+        version_name = "1.1.1"
+        support_version = '25.0.1'
+        support_v4_version = '25.0.1'
+        // App dependencies
+        kotlin_version = '1.1.2-4'
+        anko_version = '0.10.0-rc'
+        constraint_layout = '1.0.2'
+        apt_version = '1.8'
+        okhttp = "3.3.0"
+        dagger = "2.5"
+        retrofit = "2.1.0"
+        rxkotlin = "2.0.+"
+        realm = "3.0.+"
+        glide = "3.7.0"
+        multidex = "1.0.0"
+        ptr = "1.0.6"
+        happy_dns_version = '0.2.8'
+        leak = '1.5.4'
+        qiniu_android_sdk = '7.2.+'
+
+
+    }
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.2-4"
+        classpath "io.realm:realm-gradle-plugin:3.0.+"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.novoda:bintray-release:0.5.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -19,6 +76,17 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven { url 'https://dl.bintray.com/zchu/maven/' }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "http://dl.bintray.com/piasy/maven" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "../repo/repo/" }
+        maven { url 'https://jitpack.io' }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
     }
 }
 

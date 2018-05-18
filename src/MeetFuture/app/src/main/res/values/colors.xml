@@ -3,4 +3,15 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <!--通用颜色-->
+    <color name="white">#ffffffff</color>
+    <color name="white_A85">#d9ffffff</color><!--85%透明度-->
+    <color name="white_A80">#ccffffff</color><!--85%透明度-->
+    <color name="white_A70">#b2ffffff</color><!--70%透明度-->
+    <color name="white_A60">#99ffffff</color><!--60%透明度-->
+    <color name="white_A50">#80ffffff</color><!--50%透明度-->
+    <color name="white_A30">#4dffffff</color><!--30%透明度-->
+    <color name="md_red_400">#ffef5350</color>
 </resources>

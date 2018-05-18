@@ -1,15 +1,29 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
 
+/*def cfg = rootProject.ext.configuration // 项目配置
+def libs = rootProject.ext.libraries // 版本配置*/
+
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:1.1.2-4"
+        classpath "com.neenbedankt.gradle.plugins:android-apt:1.8"
+
+    }
+}
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
     defaultConfig {
         applicationId "com.zjman.meetfuture"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,13 +46,79 @@ android {
     }
 }
 
+
+configurations.all {//解决冲突
+    resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+}
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.51"
+    // implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    // androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //依赖注入dagger
+    compile 'com.google.dagger:dagger:2.5'
+    kapt "com.google.dagger:dagger-compiler:2.5"
+    //测试
+    testCompile 'org.robolectric:robolectric:3.3.2'
+    testCompile 'org.robolectric:shadows-multidex:3.3.2'
     compile 'com.android.support:multidex:1.0.1'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
+    testCompile 'org.robolectric:robolectric-annotations:.3.3.2'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    //leakCanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    //log打印
+    debugCompile 'com.zchu:zlog:1.0.0'
+    testCompile 'com.zchu:zlog:1.0.0'
+    releaseCompile 'com.zchu:zlog-no-op:1.0.0'
+    //rx
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.9'
+    //netWork
+    compile 'com.squareup.okio:okio:1.12.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile "com.squareup.okhttp3:logging-interceptor:3.7.0"
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.github.z-chu:RxCache:1.0'
+    //谷歌OAuth客户端库
+    compile('com.google.oauth-client:google-oauth-client:1.22.0', {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'com.google.android', module: 'android'
+    })
+    compile('com.google.http-client:google-http-client-gson:1.22.0', {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'com.google.android', module: 'android'
+    })
+    //ui
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'me.zhanghai.android.materialprogressbar:library:1.3.0'
+    compile 'com.afollestad.material-dialogs:core:0.9.1.0'
+    compile 'com.r0adkll:slidableactivity:2.0.5'
+    compile 'q.rorbin:badgeview:1.1.0'
+    //ImageLoader
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    //support
+
+    compile "com.android.support:support-v4:$support_version"
+    compile "com.android.support:appcompat-v7:$support_version"
+    compile "com.android.support:design:$support_version"
+    compile "com.android.support:cardview-v7:$support_version"
+    compile "com.android.support:recyclerview-v7:$support_version"
 }
